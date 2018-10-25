@@ -20,7 +20,7 @@ inquirer
             name: 'letter'
         }
     ]).then(function(input) {
-
+        console.log("Start the game!");
         checkAnswer(input);
     });
 
@@ -28,26 +28,69 @@ function generateAns() {
     console.log("\n--------------------\n");
 
     random = Math.floor(Math.random() * 6);
-    console.log("The random number is: " + random);
+
+    // Get the random word
     console.log("The word is: " + candidateArr[random]);
     candidateWord = new Word(candidateArr[random]);
-    // candidateWord = new Word(candidateArr[0]);
     
     console.log(candidateWord.stringifyWord());
 };
 
 function checkAnswer(letter) {
-    console.log("Start the game!");
     guessesLeft--;
 
+    var correct = false;
+    var changed = false;
+
+    // check through the array to see if anything matches
     console.log(candidateWord.wordArr.length);
     for(var i = 0; i < candidateWord.wordArr.length; i++) {
         if(letter.letter === candidateWord.wordArr[i].letter) {
             candidateWord.wordArr[i].checkLetter(letter.letter);
-            console.log("HElloooo?", candidateWord.wordArr[i].reveal());
+            correct = true;
         }
-        // if(candidateWord.wordArr[])
     };
+
+    // if something matches, print out "correct", else "sorry, try again"
+    if(correct) {
+        console.log("Correct!");
+    }
+    else {
+        console.log("Sorry, try again!");
+    }
+
+    // go through the word and check if all the letters got revealed
+    for(var i = 0; i < candidateWord.wordArr.length; i++) {
+        if(candidateWord.wordArr[i].correct) {
+            changed = true;
+        }
+        else {
+            changed = false;
+        }
+    };
+
+    if(changed) {
+        console.log("\nALL CHANGED!!\n");
+        inquirer
+            .prompt([
+                {
+                    type: "list",
+                    message: "Want to play again?",
+                    choices: ["yes","no"],
+                    name: "list"
+                }
+            ])
+            .then(function(res) {
+                if(res === "yes") {
+                    console.log("Ok! start again!");
+                    generateAns();
+                    tryAgain();
+                }
+                else {
+                    return;
+                }
+            })
+    }
 
     console.log(candidateWord.stringifyWord());
 
@@ -55,9 +98,6 @@ function checkAnswer(letter) {
     if(guessesLeft !== 0) {
         
         console.log("\nThis is word ", letter.letter);
-        // if(letter !== candidateWord.wordArr) {
-
-        // }
         console.log("Guesses left: " + guessesLeft + "!");
         tryAgain();
     }
@@ -79,5 +119,3 @@ function tryAgain() {
         checkAnswer(input);
     });
 };
-
-// startGame();
