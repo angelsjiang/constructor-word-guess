@@ -9,6 +9,7 @@ var candidateArr = ["potato","pumpkin","salad","fries","noodle","boba","zucchini
 var guessesLeft = 10;
 var random;
 var candidateWord;
+var guessedArray = [];
 
 var count = 0;
 
@@ -28,8 +29,9 @@ inquirer
     //     console.log("Please enter a letter!");
     //     return;
     // };
+    var usrinput = input.letter.toLowerCase();
     console.log("\n-------Start the game!-------\n");
-    checkAnswer(input);
+    checkAnswer(usrinput);
 });
 
 
@@ -65,6 +67,7 @@ function checkAnswer(letter) {
     }
     else {
         console.log("\nSorry, try again!\n");
+        guessedArray.push(letter.letter);
     }
 
     // if count reaches to the number of letters in the word, then ask user if want to start again
@@ -81,6 +84,7 @@ function checkAnswer(letter) {
         if(guessesLeft !== 0) {
             
             console.log(candidateWord.stringifyWord());
+            console.log("\nWrong guesses: " + guessedArray.join(" "));
             console.log("\nThis is word ", letter.letter);
             console.log("\nGuesses left: " + guessesLeft + "!\n");
             tryAgain();
@@ -88,6 +92,7 @@ function checkAnswer(letter) {
         else {
             console.log("\nOops, you have no more guesses left!\n")
             guessesLeft = 10;
+            guessedArray = [];
             startOver();
         }
     }
