@@ -71,6 +71,7 @@ function checkAnswer(letter) {
 
     if(changed) {
         console.log("\nALL CHANGED!!\n");
+        console.log(candidateWord.stringifyWord());
         inquirer
             .prompt([
                 {
@@ -90,19 +91,20 @@ function checkAnswer(letter) {
                     return;
                 }
             })
-    }
 
-    console.log(candidateWord.stringifyWord());
-
-    // loop inquirer if chances haven't been used up yet
-    if(guessesLeft !== 0) {
-        
-        console.log("\nThis is word ", letter.letter);
-        console.log("Guesses left: " + guessesLeft + "!");
-        tryAgain();
     }
     else {
-        guessesLeft = 10;
+        // loop inquirer if chances haven't been used up yet
+        if(guessesLeft !== 0) {
+            
+            console.log(candidateWord.stringifyWord());
+            console.log("\nThis is word ", letter.letter);
+            console.log("Guesses left: " + guessesLeft + "!");
+            tryAgain();
+        }
+        else {
+            guessesLeft = 10;
+        }
     }
 };
 
