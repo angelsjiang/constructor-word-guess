@@ -15,16 +15,23 @@ var count = 0;
 generateAns();
 
 inquirer
-    .prompt([
-        {
-            type: 'input',
-            message: 'Guess a letter: ',
-            name: 'letter'
-        }
-    ]).then(function(input) {
-        console.log("\n-------Start the game!-------\n");
-        checkAnswer(input);
-    });
+.prompt([
+    {
+        type: 'input',
+        message: 'Guess a letter: ',
+        name: 'letter'
+    }
+]).then(function(input) {
+    // // check the input whether or not it is a letter
+    // if(input.letter !== "a" || "b" || "c" || "d" || "e" || "f" || "g" || "h" || "i" || "j" || "k" || "l" || "m"
+    //     || "n" || "o" || "p" || "q" || "r" || "s" || "t" || "u" || "v" || "w" || "x" || "y" || "z" ) {
+    //     console.log("Please enter a letter!");
+    //     return;
+    // };
+    console.log("\n-------Start the game!-------\n");
+    checkAnswer(input);
+});
+
 
 function generateAns() {
     console.log("\n---------- GAME BEGIN -----------\n");
