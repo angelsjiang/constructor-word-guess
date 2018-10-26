@@ -5,7 +5,7 @@
 var Word = require("./Word");
 var inquirer = require("inquirer");
 
-var candidateArr = ["potato","pumpkin","salad","fries","noodle","boba"];
+var candidateArr = ["potato","pumpkin","salad","fries","noodle","boba","zucchini"];
 var guessesLeft = 10;
 var random;
 var candidateWord;
@@ -22,27 +22,25 @@ inquirer
             name: 'letter'
         }
     ]).then(function(input) {
-        console.log("Start the game!");
+        console.log("\n-------Start the game!-------\n");
         checkAnswer(input);
     });
 
 function generateAns() {
-    console.log("\n--------------------\n");
+    console.log("\n---------- GAME BEGIN -----------\n");
 
-    random = Math.floor(Math.random() * 6);
+    random = Math.floor(Math.random() * 7);
 
     // Get the random word
-    console.log("The word is: " + candidateArr[random]);
     candidateWord = new Word(candidateArr[random]);
     // print out either letters or underscores
-    console.log(candidateWord.stringifyWord());
+    console.log(candidateWord.stringifyWord(), " \n");
 };
 
 function checkAnswer(letter) {
     guessesLeft--;
 
     var correct = false;
-    var changed = false;
 
     // check through the array to see if anything matches
     console.log(candidateWord.wordArr.length);
@@ -51,24 +49,22 @@ function checkAnswer(letter) {
             candidateWord.wordArr[i].checkLetter(letter.letter);
             correct = true;
             count++;
-            console.log("\nCount number is " + count);
-            console.log("word length is " + candidateWord.wordArr.length + "\n");
         }
     };
 
     // if something matches, print out "correct", else "sorry, try again"
     if(correct) {
-        console.log("Correct!");
+        console.log("\nCorrect!\n");
     }
     else {
-        console.log("Sorry, try again!");
+        console.log("\nSorry, try again!\n");
     }
 
     // if count reaches to the number of letters in the word, then ask user if want to start again
     if(count === candidateWord.wordArr.length) {
         console.log("\nALL CHANGED!!\n");
         console.log("\n---- Answer is -----\n");
-        console.log(candidateWord.stringifyWord());
+        console.log(candidateWord.stringifyWord(), " \n");
         console.log("\n--------------------\n");
 
         startOver();
@@ -79,11 +75,11 @@ function checkAnswer(letter) {
             
             console.log(candidateWord.stringifyWord());
             console.log("\nThis is word ", letter.letter);
-            console.log("Guesses left: " + guessesLeft + "!");
+            console.log("\nGuesses left: " + guessesLeft + "!\n");
             tryAgain();
         }
         else {
-            console.log("Oops, you have no more guesses left!\n")
+            console.log("\nOops, you have no more guesses left!\n")
             guessesLeft = 10;
             startOver();
         }
@@ -115,9 +111,8 @@ function startOver() {
         }
     ])
     .then(function(res) {
-        console.log("hello", res.list);
         if(res.list === "yes") {
-            console.log("Ok! start again!");
+            console.log("\n-----Ok! start again!-----\n");
             guessesLeft = 10;
             count = 0;
             generateAns();
