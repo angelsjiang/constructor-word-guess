@@ -141,6 +141,7 @@ function startOver() {
     .then(function(res) {
         if(res.list === "yes") {
             console.log("\n-----Ok! start again!-----\n");
+            guessedArray = [];
             guessesLeft = 10;
             count = 0;
             generateAns();
