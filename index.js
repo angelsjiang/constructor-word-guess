@@ -115,15 +115,14 @@ function tryAgain() {
     ]).then(function(input) {
         var usrinput = input.letter.toLowerCase();
 
-        if(letterOptions.includes(usrinput) || usrinput.length != 1) {
-    
+        if(!letterOptions.includes(usrinput) || usrinput.length != 1) {
+            console.log("Please enter a letter!");
+            tryAgain();
+        }
+        else {
             console.log("to lower case ", input.letter.toLowerCase());
             console.log("\n-------Start the game!-------\n");
             checkAnswer(usrinput);
-        }
-        else {
-            console.log("Please enter a letter!");
-            startOver();
         }
     });
 };
