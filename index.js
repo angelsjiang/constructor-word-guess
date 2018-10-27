@@ -5,6 +5,7 @@
 var Word = require("./Word");
 var inquirer = require("inquirer");
 
+var letterOptions = "abcdefghijklmnopqrstuvwxyz";
 var candidateArr = ["potato","pumpkin","salad","fries","noodle","boba","zucchini"];
 var guessesLeft = 10;
 var random;
@@ -23,15 +24,20 @@ inquirer
         name: 'letter'
     }
 ]).then(function(input) {
-    // // check the input whether or not it is a letter
-    // if(input.letter !== "a" || "b" || "c" || "d" || "e" || "f" || "g" || "h" || "i" || "j" || "k" || "l" || "m"
-    //     || "n" || "o" || "p" || "q" || "r" || "s" || "t" || "u" || "v" || "w" || "x" || "y" || "z" ) {
-    //     console.log("Please enter a letter!");
-    //     return;
-    // };
+    // check the input whether or not it is a letter
     var usrinput = input.letter.toLowerCase();
-    console.log("\n-------Start the game!-------\n");
-    checkAnswer(usrinput);
+
+    if(letterOptions.includes(usrinput) || usrinput.length != 1) {
+
+        console.log("to lower case ", input.letter.toLowerCase());
+        console.log("\n-------Start the game!-------\n");
+        checkAnswer(usrinput);
+    }
+    else {
+        console.log("Please enter a letter!");
+        startOver();
+    }
+
 });
 
 
@@ -54,8 +60,8 @@ function checkAnswer(letter) {
     // check through the array to see if anything matches
     console.log(candidateWord.wordArr.length);
     for(var i = 0; i < candidateWord.wordArr.length; i++) {
-        if(letter.letter === candidateWord.wordArr[i].letter) {
-            candidateWord.wordArr[i].checkLetter(letter.letter);
+        if(letter === candidateWord.wordArr[i].letter) {
+            candidateWord.wordArr[i].checkLetter(letter);
             correct = true;
             count++;
         }
@@ -67,7 +73,7 @@ function checkAnswer(letter) {
     }
     else {
         console.log("\nSorry, try again!\n");
-        guessedArray.push(letter.letter);
+        guessedArray.push(letter);
     }
 
     // if count reaches to the number of letters in the word, then ask user if want to start again
@@ -85,7 +91,7 @@ function checkAnswer(letter) {
             
             console.log(candidateWord.stringifyWord());
             console.log("\nWrong guesses: " + guessedArray.join(" "));
-            console.log("\nThis is word ", letter.letter);
+            console.log("\nThis is word ", letter);
             console.log("\nGuesses left: " + guessesLeft + "!\n");
             tryAgain();
         }
@@ -107,8 +113,18 @@ function tryAgain() {
             name: 'letter'
         }
     ]).then(function(input) {
-        console.log(candidateWord.stringifyWord());
-        checkAnswer(input);
+        var usrinput = input.letter.toLowerCase();
+
+        if(letterOptions.includes(usrinput) || usrinput.length != 1) {
+    
+            console.log("to lower case ", input.letter.toLowerCase());
+            console.log("\n-------Start the game!-------\n");
+            checkAnswer(usrinput);
+        }
+        else {
+            console.log("Please enter a letter!");
+            startOver();
+        }
     });
 };
 
